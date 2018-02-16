@@ -1,0 +1,28 @@
+"""
+Implementation of simple cipher.
+"""
+
+SBOX = [0xc, 0x6, 0x9, 0x0, 0x1, 0xa, 0x2, 0xb,
+        0x3, 0x8, 0x5, 0xd, 0x4, 0xe, 0x7, 0xf]
+
+INV_SBOX = [0x3, 0x4, 0x6, 0x8, 0xc, 0xa, 0x1, 0xe,
+            0x9, 0x2, 0x5, 0x7, 0x0, 0xb, 0xd, 0xf]
+
+
+def encrypt(plaintext, key, rounds):
+    """
+    Encrypt plaintext with the secret key.
+    """
+    if len(key) != (rounds + 1):
+        print("ERROR: Key is to short.")
+        return 0
+
+    # Copy plaintext to state
+    state = plaintext
+
+    for rnd in range(rounds):
+        state = state ^ key[rnd]
+        state = SBOX[state]
+
+    state = state ^ key[rounds]
+    return state
